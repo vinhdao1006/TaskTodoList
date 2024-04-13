@@ -1,0 +1,22 @@
+*{
+    background-color: rgba(249, 249, 249, 1);
+}
+
+.task-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 40px;
+}
+  
+.mark-done-button {
+    float: right;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+  
