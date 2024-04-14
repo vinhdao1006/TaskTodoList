@@ -1,22 +1,51 @@
-*{
-    background-color: rgba(249, 249, 249, 1);
+* {
+  background-color: rgba(246, 246, 246, 1);
 }
 
 .task-item {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    margin-right: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin:0 100px 0 100px;
 }
-  
+
 .mark-done-button {
-    float: right;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
+  float: right;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
 }
-  
+
+.select-user {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 20%;
+}
+
+.select-user-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+.loading-circle {
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  border-top: 2px solid #000;
+  width: 10px;
+  height: 10px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

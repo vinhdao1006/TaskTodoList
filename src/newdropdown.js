@@ -4,6 +4,7 @@ import './userTasks.css';
 
 const UserTasks = ({ userId }) => {
   const [tasks, setTasks] = useState([]);
+  const [loadingTaskId, setLoadingTaskId] = useState(null);
 
   useEffect(() => {
     if (!userId) return;
@@ -18,14 +19,26 @@ const UserTasks = ({ userId }) => {
       });
   }, [userId]);
 
-  const handleMarkDone = (taskId) => {
-    const updatedTasks = tasks.map(task => {
-      if (task.id === taskId) {
-        return { ...task, completed: true };
-      }
-      return task;
-    });
-    setTasks(updatedTasks);
+  const handleMarkDone = async (taskId) => {
+    setLoadingTaskId(taskId);
+    try {
+        const response = await axios.put(`https://jsonplaceholder.typicode.com/todos/${taskId}`, {
+            completed: true
+        });
+        if(response.status === 200) {
+            const updatedTasks = tasks.map(task => {
+                if (task.id === taskId) {
+                  return { ...task, completed: true };
+                }
+                return task;
+              });
+              setTasks(updatedTasks);
+        }
+    } catch (error) {
+        console.error('Errer loading:', error);
+    } finally {
+        setLoadingTaskId(null);
+    }
   };
 
   const completedTasks = tasks.filter(task => task.completed);
@@ -41,7 +54,9 @@ const UserTasks = ({ userId }) => {
           {uncompletedTasks.map(task => (
             <li key={task.id} className='task-item'>
             {task.title}
-              <button className="mark-done-button" onClick={() => handleMarkDone(task.id)}>Mark done</button>
+              <button className="mark-done-button" onClick={() => handleMarkDone(task.id)} disabled={loadingTaskId === task.id}>
+                {loadingTaskId === task.id ? <div className='loading-circle'></div> : "Mark done"}
+                </button>
             </li>
           ))}
         </ul>
@@ -54,7 +69,7 @@ const UserTasks = ({ userId }) => {
           ))}
         </ul>
       </div>
-      <p style={{display:'flex', marginLeft:'40px'}}>Done {completedTasks.length}/{totalTasks} tasks</p>
+      <p style={{display:'flex', marginLeft:'140px'}}>Done {completedTasks.length}/{totalTasks} tasks</p>
     </div>
   );
 };
@@ -80,12 +95,12 @@ const Dropdown = () => {
 
   return (
     <div>
-      <select value={selectedUser} onChange={handleChange}>
-        <option value="">Select a user</option>
+      <select className="select-user" value={selectedUser} onChange={handleChange}>
+        <option>Select user</option>
         {users.map(user => (
-          <option key={user.id} value={user.id}>
-            {user.name}
-          </option>
+        <option key={user.id} value={user.id}>
+            <div className='select-user-box'>{user.name}</div>
+        </option>
         ))}
       </select>
       {selectedUser && <UserTasks userId={selectedUser} />}
